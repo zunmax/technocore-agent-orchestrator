@@ -1,0 +1,158 @@
+{
+  "$defs": {
+    "CheckClaim": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "stated_outcome": {
+          "enum": [
+            "passed",
+            "failed",
+            "not_run"
+          ],
+          "title": "Stated Outcome",
+          "type": "string"
+        }
+      },
+      "required": [
+        "id",
+        "stated_outcome"
+      ],
+      "title": "CheckClaim",
+      "type": "object"
+    },
+    "CriterionEvidence": {
+      "additionalProperties": false,
+      "properties": {
+        "changed_paths": {
+          "description": "Paths changed in the current implementation invocation that support this criterion; use an empty list when the current revision did not change a path for this criterion.",
+          "items": {
+            "maxLength": 512,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Changed Paths",
+          "type": "array"
+        },
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "evidence": {
+          "items": {
+            "maxLength": 1000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Evidence",
+          "type": "array"
+        },
+        "verification_command_ids": {
+          "items": {
+            "type": "string"
+          },
+          "title": "Verification Command Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "criterion_id",
+        "changed_paths",
+        "verification_command_ids",
+        "evidence"
+      ],
+      "title": "CriterionEvidence",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "blocked_reason": {
+      "anyOf": [
+        {
+          "maxLength": 2000,
+          "minLength": 1,
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Blocked Reason"
+    },
+    "candidate_commit": {
+      "anyOf": [
+        {
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "title": "Candidate Commit"
+    },
+    "criterion_evidence": {
+      "items": {
+        "$ref": "#/$defs/CriterionEvidence"
+      },
+      "title": "Criterion Evidence",
+      "type": "array"
+    },
+    "declared_changed_paths": {
+      "description": "Exact pending paths changed since this invocation's starting commit; during a revision, exclude unchanged files inherited from the reviewed candidate.",
+      "items": {
+        "maxLength": 512,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Declared Changed Paths",
+      "type": "array"
+    },
+    "focused_checks": {
+      "items": {
+        "$ref": "#/$defs/CheckClaim"
+      },
+      "title": "Focused Checks",
+      "type": "array"
+    },
+    "outcome": {
+      "enum": [
+        "changes_ready",
+        "candidate_committed",
+        "blocked"
+      ],
+      "title": "Outcome",
+      "type": "string"
+    },
+    "remaining_concerns": {
+      "items": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Remaining Concerns",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "outcome",
+    "summary",
+    "candidate_commit",
+    "declared_changed_paths",
+    "focused_checks",
+    "criterion_evidence",
+    "remaining_concerns",
+    "blocked_reason"
+  ],
+  "title": "ImplementerResult",
+  "type": "object"
+}

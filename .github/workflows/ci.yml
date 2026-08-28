@@ -1,0 +1,47 @@
+name: ci
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  windows:
+    runs-on: windows-2025
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: astral-sh/setup-uv@v7
+        with:
+          enable-cache: true
+
+      - name: Install the pinned environment
+        run: uv sync --frozen
+
+      - name: Lint
+        run: uv run ruff check src scripts tests
+
+      - name: Check formatting
+        run: uv run ruff format --check src scripts tests
+
+      - name: Type check
+        run: uv run ty check src scripts tests
+
+      - name: Check generated schemas
+        run: uv run python scripts/export_schemas.py --check
+
+      - name: Test with branch coverage
+        run: uv run coverage run -m pytest -q
+
+      - name: Report coverage
+        run: uv run coverage report
+
+      - name: Audit dependencies
+        run: uv run pip-audit
+
+      - name: Build distributions
+        run: uv build

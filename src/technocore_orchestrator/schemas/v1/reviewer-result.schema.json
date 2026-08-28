@@ -1,0 +1,107 @@
+{
+  "$defs": {
+    "FindingSeverity": {
+      "enum": [
+        "blocking",
+        "important",
+        "minor"
+      ],
+      "title": "FindingSeverity",
+      "type": "string"
+    },
+    "ReviewFinding": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "path": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Path",
+          "type": "string"
+        },
+        "problem": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Problem",
+          "type": "string"
+        },
+        "required_fix": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Required Fix",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/FindingSeverity"
+        }
+      },
+      "required": [
+        "id",
+        "severity",
+        "criterion_id",
+        "path",
+        "problem",
+        "required_fix"
+      ],
+      "title": "ReviewFinding",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "acceptance_coverage": {
+      "items": {
+        "type": "string"
+      },
+      "title": "Acceptance Coverage",
+      "type": "array"
+    },
+    "decision": {
+      "enum": [
+        "approved",
+        "revision_required",
+        "blocked"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "findings": {
+      "items": {
+        "$ref": "#/$defs/ReviewFinding"
+      },
+      "title": "Findings",
+      "type": "array"
+    },
+    "residual_risks": {
+      "items": {
+        "maxLength": 1000,
+        "minLength": 1,
+        "type": "string"
+      },
+      "title": "Residual Risks",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "summary",
+    "findings",
+    "acceptance_coverage",
+    "residual_risks"
+  ],
+  "title": "ReviewerResult",
+  "type": "object"
+}

@@ -1,0 +1,157 @@
+{
+  "$defs": {
+    "ArtifactReference": {
+      "additionalProperties": false,
+      "properties": {
+        "sha256": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Sha256"
+        },
+        "type": {
+          "$ref": "#/$defs/ArtifactType"
+        },
+        "value": {
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Value",
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "value"
+      ],
+      "title": "ArtifactReference",
+      "type": "object"
+    },
+    "ArtifactType": {
+      "enum": [
+        "git_commit",
+        "repo_file",
+        "local_report"
+      ],
+      "title": "ArtifactType",
+      "type": "string"
+    },
+    "EventKind": {
+      "enum": [
+        "run_started",
+        "plan_proposed",
+        "plan_challenged",
+        "plan_finalized",
+        "implementation_started",
+        "implementation_ready",
+        "revision_required",
+        "review_approved",
+        "verification_passed",
+        "verification_failed",
+        "run_failed",
+        "run_canceled",
+        "transport_warning",
+        "security_warning"
+      ],
+      "title": "EventKind",
+      "type": "string"
+    },
+    "Role": {
+      "enum": [
+        "supervisor",
+        "planner",
+        "implementer",
+        "reviewer",
+        "verifier"
+      ],
+      "title": "Role",
+      "type": "string"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "artifact": {
+      "anyOf": [
+        {
+          "$ref": "#/$defs/ArtifactReference"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null
+    },
+    "attempt": {
+      "maximum": 100,
+      "minimum": 1,
+      "title": "Attempt",
+      "type": "integer"
+    },
+    "created_at": {
+      "format": "date-time",
+      "title": "Created At",
+      "type": "string"
+    },
+    "event_id": {
+      "format": "uuid",
+      "title": "Event Id",
+      "type": "string"
+    },
+    "kind": {
+      "$ref": "#/$defs/EventKind"
+    },
+    "reply_to": {
+      "anyOf": [
+        {
+          "format": "uuid",
+          "type": "string"
+        },
+        {
+          "type": "null"
+        }
+      ],
+      "default": null,
+      "title": "Reply To"
+    },
+    "run_id": {
+      "title": "Run Id",
+      "type": "string"
+    },
+    "sender": {
+      "$ref": "#/$defs/Role"
+    },
+    "summary": {
+      "maxLength": 600,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    },
+    "task_id": {
+      "title": "Task Id",
+      "type": "string"
+    },
+    "v": {
+      "const": 1,
+      "title": "V",
+      "type": "integer"
+    }
+  },
+  "required": [
+    "v",
+    "event_id",
+    "run_id",
+    "task_id",
+    "kind",
+    "sender",
+    "attempt",
+    "created_at",
+    "summary"
+  ],
+  "title": "EventEnvelope",
+  "type": "object"
+}

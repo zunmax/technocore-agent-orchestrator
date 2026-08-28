@@ -1,0 +1,35 @@
+schema_version = 4
+
+[task]
+prompt = """
+Describe the product or code change you want Claude and Codex to build.
+"""
+allowed_paths = ["."]
+
+[roles]
+planner = "codex"
+implementer = "claude"
+reviewer = "codex"
+
+[providers.codex]
+executable = 'C:\absolute\path\to\codex.exe'
+model = "REVIEW_AND_PIN_EXACT_MODEL"
+expected_version = "0.0.0"
+
+[providers.claude]
+executable = 'C:\absolute\path\to\claude.exe'
+model = "REVIEW_AND_PIN_EXACT_MODEL"
+expected_version = "0.0.0"
+
+[limits]
+max_model_invocations = 20
+claude_max_turns = 20
+
+[verification]
+include_git_diff_check = true
+
+[storage]
+root = ".local/workflow"
+
+[output]
+root = "output"

@@ -1,0 +1,82 @@
+{
+  "$defs": {
+    "FindingSeverity": {
+      "enum": [
+        "blocking",
+        "important",
+        "minor"
+      ],
+      "title": "FindingSeverity",
+      "type": "string"
+    },
+    "PlanChallengeIssue": {
+      "additionalProperties": false,
+      "properties": {
+        "criterion_id": {
+          "title": "Criterion Id",
+          "type": "string"
+        },
+        "id": {
+          "title": "Id",
+          "type": "string"
+        },
+        "rationale": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Rationale",
+          "type": "string"
+        },
+        "recommendation": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Recommendation",
+          "type": "string"
+        },
+        "severity": {
+          "$ref": "#/$defs/FindingSeverity"
+        }
+      },
+      "required": [
+        "id",
+        "severity",
+        "criterion_id",
+        "rationale",
+        "recommendation"
+      ],
+      "title": "PlanChallengeIssue",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "decision": {
+      "enum": [
+        "approved",
+        "changes_requested",
+        "blocked"
+      ],
+      "title": "Decision",
+      "type": "string"
+    },
+    "issues": {
+      "items": {
+        "$ref": "#/$defs/PlanChallengeIssue"
+      },
+      "title": "Issues",
+      "type": "array"
+    },
+    "summary": {
+      "maxLength": 2000,
+      "minLength": 1,
+      "title": "Summary",
+      "type": "string"
+    }
+  },
+  "required": [
+    "decision",
+    "summary",
+    "issues"
+  ],
+  "title": "PlanChallengeResult",
+  "type": "object"
+}
